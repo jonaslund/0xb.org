@@ -97,6 +97,57 @@ function init() {
       //videos.push(document.getElementById('you'));
       //rtc.attachStream(stream, 'you');
       //subdivideVideos();
+  
+      console.log("the stream", stream);
+
+      recordAudio = RecordRTC(stream, {
+          bufferSize: 4096
+      });
+
+      (function saveRecord() {
+        recordAudio.startRecording();
+        var fileNameStart = new Date().getTime();        
+
+        setTimeout(function() {
+          recordAudio.stopRecording(function(audioURL) {           
+            $("#audioTest")[0].src = audioURL;
+
+            recordAudio.getDataURL(function(audioDataURL) { 
+              console.log("dataURL", audioDataURL);
+
+              //send to server      
+              var file = {
+                  audio: {
+                    name: fileNameStart + '.wav',
+                    type: 'audio/wav',
+                    contents: audioDataURL
+                  }};
+
+              // xhr('http://127.0.0.1:3100/upload', file, function(fileName) {
+              //     console.log("yo", fileName);
+              //     saveRecord();                  
+              // });
+
+              $.ajax({
+                type: "POST",
+                url: "/upload",
+                data: {
+                  contents: audioDataURL,
+                  filename: fileNameStart
+                },
+                //contentType: "application/json",
+                success: function(data) {
+                  console.log(data);
+                  saveRecord();
+                }
+              });
+
+            });        
+          }); 
+        }, 10000);
+
+      })();
+      
     });
   } else {
     alert('Your browser is not supported or you have to turn on flags. In Chrome you go to chrome://flags and turn on Enable PeerConnection remember to restart chrome');
@@ -112,10 +163,6 @@ function init() {
     rtc.attachStream(stream, clone.id);
     subdivideVideos();
 
-    console.log("the stream", stream);
-
-    recordRTC = RecordRTC(stream);      
-    recordRTC.startRecording();
 
   });
   
@@ -123,12 +170,17 @@ function init() {
     console.log('remove ' + data);
     removeVideo(data);
 
-    recordRTC.stopRecording(function(audioURL) {
-       console.log(audioURL);
-       $("#audioTest")[0].src = audioURL;
-    
-    }); 
-
   });
+
+  function xhr(url, data, callback) {
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function() {
+          if (request.readyState == 4 && request.status == 200) {
+              callback(request.responseText);
+          }
+      };
+      request.open('POST', url);
+      request.send(data);
+  }
 
 }
