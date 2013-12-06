@@ -2,6 +2,7 @@ var express = require('express'),
     http = require("http"),
     path = require('path'),
     fs = require("fs"),
+    exec = require('child_process').exec,
     app = express(),    
     server = http.createServer(app),    
     webRTC = require('webrtc.io').listen(server);
@@ -30,7 +31,7 @@ app.post("/upload", function(req, res) {
     
     var data = req.body;
     var fileRootName = data.filename,
-        fileExtension = ".wav",
+        fileExtension = "wav",
         filePathBase = 'uploads/',
         fileRootNameWithBase = filePathBase + fileRootName,
         filePath = fileRootNameWithBase + '.' + fileExtension,        
@@ -41,7 +42,15 @@ app.post("/upload", function(req, res) {
 
     fileBuffer = new Buffer(data.contents, "base64");    
     fs.writeFile(filePath, fileBuffer, function() {
-      console.log("done");
+      console.log("done writing");
+
+      //convert      
+      
+      var cmd = "lame -V 5 " + filePath + " " + filePathBase+fileRootName + ".mp3; rm " + filePath;
+      exec(cmd, function (error, stdout, stderr) {          
+        console.log("done converting");
+      });
+                
       res.send("success");
     });
 
