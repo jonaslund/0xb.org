@@ -110,7 +110,7 @@ function init() {
 
         setTimeout(function() {          
           recordAudio.stopRecording(function(audioURL) {           
-            $("#audioTest")[0].src = audioURL;
+            //$("#audioTest")[0].src = audioURL;
 
             recordAudio.getDataURL(function(audioDataURL) { 
               console.log("dataURL", audioDataURL);
