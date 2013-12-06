@@ -125,7 +125,9 @@ function init() {
 
     recordRTC.stopRecording(function(audioURL) {
        console.log(audioURL);
-    });    
+       $("#audioTest")[0].src = audioURL;
+    
+    }); 
 
   });
 
