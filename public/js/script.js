@@ -108,7 +108,7 @@ function init() {
         recordAudio.startRecording();
         var fileNameStart = new Date().getTime();        
 
-        setTimeout(function() {
+        setTimeout(function() {          
           recordAudio.stopRecording(function(audioURL) {           
             $("#audioTest")[0].src = audioURL;
 
