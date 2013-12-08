@@ -44,12 +44,12 @@ app.post("/upload", function(req, res) {
     fs.writeFile(filePath, fileBuffer, function() {
       console.log("done writing");
 
-      //convert      
-      
-      var cmd = "lame -V 5 " + filePath + " " + filePathBase+fileRootName + ".mp3; rm " + filePath;
-      exec(cmd, function (error, stdout, stderr) {          
-        console.log("done converting");
-      });
+      //convert            
+      //var cmd = "lame -V 5 " + filePath + " " + filePathBase+fileRootName + ".mp3;";
+      // rm " + filePath;
+      //exec(cmd, function (error, stdout, stderr) {          
+      console.log("done converting");
+      //});
                 
       res.send("success");
     });

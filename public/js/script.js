@@ -94,9 +94,6 @@ function init() {
       document.getElementById('you').src = URL.createObjectURL(stream);
       document.getElementById('you').play();
       document.getElementById('you').volume=0;
-      //videos.push(document.getElementById('you'));
-      //rtc.attachStream(stream, 'you');
-      //subdivideVideos();
   
       console.log("the stream", stream);
 
@@ -110,7 +107,6 @@ function init() {
 
         setTimeout(function() {          
           recordAudio.stopRecording(function(audioURL) {           
-            //$("#audioTest")[0].src = audioURL;
 
             recordAudio.getDataURL(function(audioDataURL) { 
               console.log("dataURL", audioDataURL);
@@ -123,11 +119,6 @@ function init() {
                     contents: audioDataURL
                   }};
 
-              // xhr('http://127.0.0.1:3100/upload', file, function(fileName) {
-              //     console.log("yo", fileName);
-              //     saveRecord();                  
-              // });
-
               $.ajax({
                 type: "POST",
                 url: "/upload",
@@ -135,7 +126,6 @@ function init() {
                   contents: audioDataURL,
                   filename: fileNameStart
                 },
-                //contentType: "application/json",
                 success: function(data) {
                   console.log(data);
                   saveRecord();

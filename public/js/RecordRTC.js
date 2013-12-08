@@ -24,6 +24,7 @@ function RecordRTC(mediaStream, config) {
         if (config.type == 'gif') Recorder = window.GifRecorder;
 
         mediaRecorder = new Recorder(mediaStream);
+        console.log("mediaRecord", mediaRecorder);
 
         // Merge all data-types except "function"
         mediaRecorder = mergeProps(mediaRecorder, config);
