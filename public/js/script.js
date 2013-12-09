@@ -174,3 +174,12 @@ function init() {
   }
 
 }
+// var count = 1;
+// setInterval(function() {
+//   count = count + 1;
+//   if(count > 8) {
+//     count = 1;
+//   }
+
+//   $("body").css({"background": "url(/img/noise_"+count+".png)"});
+// }, 100);
