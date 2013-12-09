@@ -27,20 +27,23 @@ app.get('/', function(req, res) {
   res.render('home');
 });
 
+var fileNameCount = 0;
+
 app.post("/upload", function(req, res) {
-    
+    fileNameCount++;
+
     var data = req.body;
-    var fileRootName = data.filename,
+    var fileRootName = data.filename+"_"+fileNameCount,
         fileExtension = "wav",
         filePathBase = 'uploads/',
         fileRootNameWithBase = filePathBase + fileRootName,
         filePath = fileRootNameWithBase + '.' + fileExtension,        
         fileBuffer;
 
-
     data.contents = data.contents.split(',').pop();
 
     fileBuffer = new Buffer(data.contents, "base64");    
+        
     fs.writeFile(filePath, fileBuffer, function() {
       console.log("done writing");
 
