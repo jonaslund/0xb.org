@@ -15,5 +15,6 @@ npm-debug.log
 uploads
 sounds
 files
+node_modules
 
 .DS_Store
